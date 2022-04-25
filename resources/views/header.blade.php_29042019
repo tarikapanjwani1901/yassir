@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>YasSir | Your Corporate Motto</title>
+        <meta name="description" content="Your Corporate Motto">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <script src="{{ asset('public/assets/js/jquery-1.12.4.min.js') }}"></script>
+	    <script src="{{ asset('public/assets/js/jquery.flexslider.js') }}"></script>
+	    <script src="{{ asset('public/assets/js/modernizr.js') }}"></script>
+	    <script src="{{ asset('public/assets/js/general.js') }}"></script>
+	    <script src="{{ asset('public/assets/js/bootstrap.min.js') }}"></script>
+	    <script src="{{ asset('public/assets/js/jquery.validate.min.js') }}"></script>
+	    <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/css/font-awesome.min.css') }}">
+	    <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/css/flaticon.css') }}">
+	    <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/css/bootstrap.min.css') }}">
+	    <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/css/flexslider.css') }}">
+	    <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/css/style.css') }}">
+
+	    <!--fonts-->
+	    <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400,700" rel="stylesheet">
+		<!--favicon-->
+		<link rel="shortcut icon" type="image/x-icon" href="{{ asset('public/assets/images/favicon.ico') }}">
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132208143-1"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+		  gtag('config', 'UA-132208143-1');
+		</script>
+    </head>
+    <body class="home">
+    	<!-- header-->
+	    <header>
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-xs-5 col-sm-3">
+	                    <div class="logo">
+	                    	<a href="{{ url ('/') }}">
+	                        	<img src="{{ asset('public/assets/images/logo-black.svg') }}" alt="Yassir your corporate motto">
+	                    	</a>
+	                    </div>
+	                </div>
+	                <div class="col-xs-7 col-sm-9 text-right navigation">
+					 <div class="callus-header text-right">
+			     <a href="tel:7575081000" class="number"><i class="fa fa-phone"></i> 7575081000</a>
+			     
+
+			     <a href="{{url('/')}}/wishlist" class="header-like">
+
+                    <span class="count"><?php echo (isset($_COOKIE['total_count']) && $_COOKIE['total_count'] != '0' ) ? $_COOKIE['total_count'] : '0' ;?></span><i class="fa fa-heart"></i>
+
+                </a>
+				 </div>
+                        <div class="menuicon">
+                          <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="mobmenu">
+					<div class="list_biz">
+	                    		<a class="" href="{{url('/')}}/becomevendor" tabindex="0">List Your Business</a>
+	                    	</div>
+	                    <nav>
+	                        <ul>
+	                            <li><a href="{{ url ('/') }}">Home</a></li>
+	                            <li><a href="{{ url ('services') }}">Services</a></li>
+	                            <li><a href="{{ url ('quickquote') }}">Quick Quote</a></li>
+	                            <li><a href="{{ url ('about_us') }}">About Us</a></li>
+	                            <li><a href="{{ url ('contact_us') }}">Contact Us</a></li>
+	                        </ul>
+	                    </nav>
+	                    <div class="loginbox">
+	                        <ul>
+		                        @if(Sentinel::guest())
+			                        <li><a href="{{ url ('login') }}">Login</a></li> /
+			                        <li><a href="{{ url ('register') }}">Signup</a></li>
+			                    @else
+			                        <li {{ (Request::is('my-account') ? 'class=active' : '') }}><a href="{{ URL::to('my-account') }}">My Account</a>
+			                        </li>
+			                        <li><a href="{{ URL::to('logout') }}">Logout</a>
+			                        </li>
+			                    @endif
+	                        </ul>
+	                    </div>
+	                </div>
+                	</div>
+	            </div>
+	        </div>
+	    </header>
+	      <!-- header end-->
+	</body>
+
+	    <div class="modal fade" id="properties_otp" role="dialog">
+		    <div class="modal-dialog">
+		        
+		        <div class="modal-content">
+		                <button type="button" class="close" data-dismiss="modal">&times;</button>
+		                
+		            <div class="modal-body otp_information">
+		            	<p>Enter Name and Mobile number to generate OTP</p>
+	                    <div class="row">
+						<div class="form-group col-sm-6">
+		                	<span style="color:red;"></span><input type="text" class="form-control otpuser" name="otpuser_name" placeholder="Enter your name" required="" id="otpuser_name">
+		                </div>
+		                <div class="form-group col-sm-6">
+		                	<span style="color:red;"></span><input type="number" class="form-control otp_num1" id="otp_number" name="otp_number" placeholder="Enter your number" required="">
+		                </div><br><br>
+		            </div>
+	                    </div>
+		            <div class="modal-body otp_num" style="display: none;">
+		            	<p>Thanks for giving your details. An OTP has been sent to your Mobile Number. Please enter the 4 digit OTP below</p><br>
+		            	<div class="form-group">
+		                	<span style="color:red;"></span><input type="password" class="form-control verify" id="otp_verify" name="otp_verify" placeholder="Enter your OTP number" required="">
+		                </div>
+		            </div>
+		            <div><span style="color:red;" class="error_msg"></span></div>
+		            <input type="hidden" name="bookId" id="bookId" value="">
+		            <div class="modal-footer otp_information_submit">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		                <button type="button" id="property_ok_1" class="btn btn-primary">Send</button>
+		            </div>
+		           	<div class="modal-footer otp_num_submit" style="display: none;">
+		                <button type="button" id="property_ok_2" class="btn btn-primary">Verify</button>
+		            </div>
+		        </div>
+		    </div>
+	  </div>
+
+	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+	  <script type="text/javascript">
+		    
+		    $(".onclick").click(function(){
+		      var myBookId = $(this).data('id');
+		      $(".modal-dialog #bookId").val( myBookId );
+		    });
+
+		    jQuery("#property_ok_1").on('click',function(){
+		        var listingPath = jQuery("#bookId").val();
+		        var split = listingPath.split('/');
+
+		     	var phoneNumber = jQuery(".otp_num1").val();
+		    	var user_name = jQuery(".otpuser").val();
+
+		        if (user_name == '' && phoneNumber == '') {
+		        	$(".error_msg").html('');
+	              	$(".error_msg").html('Please enter field values.');
+	              	var validate = false;
+		        } else  if (user_name == null && phoneNumber !== undefined) {
+		        	$(".error_msg").html('');
+	              	$(".error_msg").html('Please enter your name.');
+	              	var validate = false;
+		        } else  if (user_name !== undefined && phoneNumber == null) {
+		        	$(".error_msg").html('');
+	              	$(".error_msg").html('Please put 10 digit mobile number');
+	              	var validate = false;
+		        } else {
+		        	var filter = /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+
+		            if (filter.test(phoneNumber)) {
+		              if(phoneNumber.length==10){
+		              	$(".error_msg").html('');
+		                var validate = true;
+		              } else {
+		              	$(".error_msg").html('');
+		              	$(".error_msg").html('Please put 10 digit mobile number');
+		                  var validate = false;
+		              }
+		            }
+		            else {
+		            	$(".error_msg").html('');
+		              	$(".error_msg").html('Not a valid number');
+		              	var validate = false;
+		            }
+		        }
+
+		        if (typeof (split[2]) != "undefined" && split[2] !== null ) {
+		        	var sval = split[2];
+		        } else {
+		        	var sval = split[1];
+		        }
+
+		        var letters = /^[A-Za-z]+$/;
+				if(user_name.match(letters))
+				{
+				} else {
+					$(".error_msg").html('');
+	              	$(".error_msg").html('Please enter correct name.');
+	              	var validate = false;
+				}
+
+
+		        
+	        	if (validate) {
+			        $.ajax({
+			           type:'get',
+			           url:'/otpAdd/add/'+user_name+'/'+phoneNumber+'/'+sval,
+			           success:function(data){
+			                if (data == 'success') {
+					            $(".otp_information").hide();
+				        		$(".otp_information_submit").hide();
+
+				        		$(".otp_num").show();
+				        		$(".otp_num_submit").show();
+			                } else {
+			                	$(".error_msg").html('Something went wrong! Please try again.');
+			                }
+			           }
+			        });
+		        }
+		    });
+
+		    jQuery("#property_ok_2").on('click',function(){
+		    	
+		    	var listingPath = jQuery("#bookId").val();
+
+		        var split = listingPath.split('/');
+
+		        if (typeof (split[2]) != "undefined" && split[2] !== null ) {
+		        	var sval = split[2];
+		        } else {
+		        	var sval = split[1];
+		        }
+
+		    	var otp_verify = jQuery(".verify").val();
+		    	var phoneNumber = jQuery(".otp_num1").val();
+
+		    	var validate = true;
+		    	if (otp_verify == '') {
+		    		$(".error_msg").html('');
+	              	$(".error_msg").html('Please enter OTP');
+	              	var validate = false;
+		    	}
+
+		    	var filter = /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+
+	            if (filter.test(otp_verify)) {
+	              if(phoneNumber.length==4){
+	              	$(".error_msg").html('');
+	                var validate = true;
+	              } else {
+	              	$(".error_msg").html('');
+	              	$(".error_msg").html('Please put 4 digit');
+	                  var validate = false;
+	              }
+	            }
+
+	            //Verify OTP
+		    	if (validate) {
+		    		$.ajax({
+			           type:'get',
+			           url:'/otpVerify/'+otp_verify+'/'+phoneNumber+'/'+sval,
+			           success:function(data){
+			                if (data == 'success') {
+			                
+
+			                	$('#location_view').show();
+			                	
+			                	$('#properties_otp').modal('hide');
+			                	$('#iam_interest').hide();
+
+			                	var expDate = new Date();
+						        expDate.setTime(expDate.getTime() + (15 * 60 * 1000)); minutes
+
+						        if (typeof $.cookie("otp_lists") !== 'undefined') {
+						            var otp_lists = $.cookie("otp_lists")+','+sval;
+						        } else {
+						            var otp_lists = sval;
+						        }
+
+						        
+						        $.removeCookie("otp_lists", { path: '/' });
+
+						        
+						        $.cookie("otp_lists",otp_lists, { path: '/', expires: expDate });
+
+					          
+			                } else {
+			                	$(".error_msg").html('');
+	              				$(".error_msg").html(data);
+			                }
+			           }
+			        });
+		    	}
+		    });
+
+	  </script>
+	  

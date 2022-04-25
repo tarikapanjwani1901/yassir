@@ -1,0 +1,26 @@
+.scrollTop {
+     position: fixed;
+    right: 1%;
+    bottom: 18px;
+    background-color: #8c1730;
+    opacity: 0;
+    transition: all 0.4s ease-in-out 0s;
+    height: 45px;
+    width: 45px;
+    text-align: center;
+        border-radius: 3px;
+        z-index: 99999;
+}
+.scrollTop i{font-size:35px;line-height:45px;}
+.scrollTop a {
+  font-size: 18px;
+  color: #fff;
+}
+.copyright a.fb i{background: #39579a;color: #FFF;border:1px solid  #39579a;height: 40PX;width: 40PX;text-align:center;line-height: 40PX;border-radius: 33PX;}
+.copyright a.fb i:hover{background:#fff;color:#39579a;}
+.copyright a.tw i{background:#059ff5;color: #FFF;border:1px solid #059ff5;height: 40PX;width: 40PX;text-align:center;line-height: 40PX;border-radius: 33PX;}
+.copyright a.tw i:hover{background:#fff;color:#059ff5;}
+.copyright a.insta i{background: #e4405f;color: #FFF;border:1px solid  #e4405f;height: 40PX;width: 40PX;text-align:center;line-height: 40PX;border-radius: 33PX;}
+.copyright a.insta i:hover{background:#fff;color:#e4405f;}
+.copyright a.you i{background: #cd201f;color: #FFF;border:1px solid   #cd201f;height: 40PX;width: 40PX;text-align:center;line-height: 40PX;border-radius: 33PX;}
+.copyright a.you i:hover{background:#fff;color:#cd201f;}

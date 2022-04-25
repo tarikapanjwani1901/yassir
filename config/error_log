@@ -1,0 +1,16 @@
+[18-Feb-2019 16:36:12 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/yassirin/public_html/config/activitylog.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/yassirin/public_html/config/activitylog.php on line 9
+[18-Feb-2019 16:36:30 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/yassirin/public_html/config/app.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/yassirin/public_html/config/app.php on line 16
+[18-Feb-2019 16:36:42 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/yassirin/public_html/config/database.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/yassirin/public_html/config/database.php on line 16
+[01-Dec-2021 16:16:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/o3pceq5hqgxf/public_html/config/cache.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/o3pceq5hqgxf/public_html/config/cache.php on line 18

@@ -1,0 +1,90 @@
+[18-Jan-2020 05:14:06 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/pp82h59xpsrw/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php:752
+Stack trace:
+#0 /home/pp82h59xpsrw/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(752): ReflectionClass->__construct('config')
+#1 /home/pp82h59xpsrw/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(631): Illuminate\Container\Container->build('config')
+#2 /home/pp82h59xpsrw/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(586): Illuminate\Container\Container->resolve('config', Array)
+#3 /home/pp82h59xpsrw/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(732): Illuminate\Container\Container->make('config', Array)
+#4 /home/pp82h59xpsrw/public_html/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(110): Illuminate\Foundation\Application->make('config', Array)
+#5 /home/pp82h59xpsrw/public_html/vendor/laravel/framework/src/Illuminate/ in /home/pp82h59xpsrw/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 752
+[27-Jan-2020 14:01:41 Asia/Kolkata] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/pp82h59xpsrw/public_html/storage/framework/views/8e094481304cf2c061f77d1140ff899f9c5ebd0b.php on line 620
+[27-Jan-2020 14:01:42 Asia/Kolkata] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/pp82h59xpsrw/public_html/storage/framework/views/8e094481304cf2c061f77d1140ff899f9c5ebd0b.php on line 620
+[27-Jan-2020 14:01:45 Asia/Kolkata] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/pp82h59xpsrw/public_html/storage/framework/views/8e094481304cf2c061f77d1140ff899f9c5ebd0b.php on line 620
+[27-Jan-2020 14:03:19 Asia/Kolkata] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/pp82h59xpsrw/public_html/storage/framework/views/8e094481304cf2c061f77d1140ff899f9c5ebd0b.php on line 620
+[27-Jan-2020 14:03:20 Asia/Kolkata] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/pp82h59xpsrw/public_html/storage/framework/views/8e094481304cf2c061f77d1140ff899f9c5ebd0b.php on line 620
+[27-Jan-2020 14:03:21 Asia/Kolkata] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/pp82h59xpsrw/public_html/storage/framework/views/8e094481304cf2c061f77d1140ff899f9c5ebd0b.php on line 620
+[27-Jan-2020 14:05:17 Asia/Kolkata] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/pp82h59xpsrw/public_html/storage/framework/views/8e094481304cf2c061f77d1140ff899f9c5ebd0b.php on line 625
+[27-Jan-2020 14:05:18 Asia/Kolkata] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/pp82h59xpsrw/public_html/storage/framework/views/8e094481304cf2c061f77d1140ff899f9c5ebd0b.php on line 625
+[20-Feb-2020 14:13:35 Asia/Kolkata] PHP Fatal error:  Cannot redeclare App\Http\Controllers\HomePageController::fetch_old() in /home/pp82h59xpsrw/public_html/app/Http/Controllers/HomePageController.php on line 121
+[26-Feb-2020 14:07:11 Asia/Kolkata] PHP Fatal error:  Method Illuminate\View\View::__toString() must not throw an exception, caught ErrorException: Undefined offset: 0 (View: /home/pp82h59xpsrw/public_html/resources/views/vendor/charts/material/multi/bar.blade.php) in /home/pp82h59xpsrw/public_html/vendor/consoletvs/support/Traits/StringFunctions.php on line 0
+[01-Jul-2021 22:29:37 UTC] PHP Fatal error:  Uncaught Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException: The file "/tmp/phpqmF1V5" does not exist in /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/File.php:37
+Stack trace:
+#0 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/UploadedFile.php(66): Symfony\Component\HttpFoundation\File\File->__construct('/tmp/phpqmF1V5', true)
+#1 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(87): Symfony\Component\HttpFoundation\File\UploadedFile->__construct('/tmp/phpqmF1V5', 'king.php', '', 376, 0)
+#2 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(52): Symfony\Component\HttpFoundation\FileBag->convertFileInformation(Array)
+#3 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(61): Symfony\Component\HttpFoundation\FileBag->set('Raiz0WorM', Array)
+#4 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(40): Symfony\Component\HttpFoundation\FileBag->add(Array)
+#5 /home/o3 in /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/File.php on line 37
+[01-Jul-2021 22:29:39 UTC] PHP Fatal error:  Uncaught Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException: The file "/tmp/phpQDkPwM" does not exist in /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/File.php:37
+Stack trace:
+#0 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/UploadedFile.php(66): Symfony\Component\HttpFoundation\File\File->__construct('/tmp/phpQDkPwM', true)
+#1 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(87): Symfony\Component\HttpFoundation\File\UploadedFile->__construct('/tmp/phpQDkPwM', 'king.php', '', 376, 0)
+#2 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(52): Symfony\Component\HttpFoundation\FileBag->convertFileInformation(Array)
+#3 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(61): Symfony\Component\HttpFoundation\FileBag->set('data_image', Array)
+#4 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(40): Symfony\Component\HttpFoundation\FileBag->add(Array)
+#5 /home/o in /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/File.php on line 37
+[01-Jul-2021 22:29:42 UTC] PHP Fatal error:  Uncaught Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException: The file "/tmp/phpkArhnR" does not exist in /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/File.php:37
+Stack trace:
+#0 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/UploadedFile.php(66): Symfony\Component\HttpFoundation\File\File->__construct('/tmp/phpkArhnR', true)
+#1 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(87): Symfony\Component\HttpFoundation\File\UploadedFile->__construct('/tmp/phpkArhnR', 'king.php', '', 376, 0)
+#2 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(52): Symfony\Component\HttpFoundation\FileBag->convertFileInformation(Array)
+#3 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(61): Symfony\Component\HttpFoundation\FileBag->set('uploadimage', Array)
+#4 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(40): Symfony\Component\HttpFoundation\FileBag->add(Array)
+#5 /home/ in /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/File.php on line 37
+[01-Jul-2021 22:29:45 UTC] PHP Fatal error:  Uncaught Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException: The file "/tmp/phpQ4jAoj" does not exist in /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/File.php:37
+Stack trace:
+#0 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/UploadedFile.php(66): Symfony\Component\HttpFoundation\File\File->__construct('/tmp/phpQ4jAoj', true)
+#1 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(87): Symfony\Component\HttpFoundation\File\UploadedFile->__construct('/tmp/phpQ4jAoj', 'king.php', '', 376, 0)
+#2 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(52): Symfony\Component\HttpFoundation\FileBag->convertFileInformation(Array)
+#3 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(61): Symfony\Component\HttpFoundation\FileBag->set('uploadimage', Array)
+#4 /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/FileBag.php(40): Symfony\Component\HttpFoundation\FileBag->add(Array)
+#5 /home/ in /home/o3pceq5hqgxf/public_html/vendor/symfony/http-foundation/File/File.php on line 37
+[23-Jul-2021 20:06:02 UTC] PHP Deprecated:  strpos(): Non-string needles will be interpreted as strings in the future. Use an explicit chr() call to preserve the current behavior in /home/o3pceq5hqgxf/public_html/sucuri-db-test.php on line 36
+[23-Jul-2021 20:06:02 UTC] PHP Deprecated:  strpos(): Non-string needles will be interpreted as strings in the future. Use an explicit chr() call to preserve the current behavior in /home/o3pceq5hqgxf/public_html/sucuri-db-test.php on line 36
+[20-Oct-2021 05:59:26 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[21-Oct-2021 06:00:16 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[22-Oct-2021 05:59:20 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[23-Oct-2021 05:59:25 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[24-Oct-2021 06:00:07 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[25-Oct-2021 05:59:06 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[26-Oct-2021 05:59:13 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[27-Oct-2021 06:00:16 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[28-Oct-2021 06:00:21 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[29-Oct-2021 05:59:14 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[30-Oct-2021 05:59:12 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[31-Oct-2021 06:03:58 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[01-Nov-2021 05:59:09 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[02-Nov-2021 05:59:16 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[03-Nov-2021 06:00:14 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[04-Nov-2021 06:00:12 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[05-Nov-2021 05:59:19 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[06-Nov-2021 06:00:25 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[07-Nov-2021 06:00:22 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[08-Nov-2021 05:59:12 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[10-Nov-2021 05:59:14 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[11-Nov-2021 05:59:28 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[12-Nov-2021 05:59:31 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[13-Nov-2021 06:00:24 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[14-Nov-2021 06:00:09 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[15-Nov-2021 06:00:07 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[15-Nov-2021 22:34:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Polyfill\Mbstring\iconv_strpos() in /home/o3pceq5hqgxf/public_html/vendor/symfony/polyfill-mbstring/Mbstring.php:493
+Stack trace:
+#0 /home/o3pceq5hqgxf/public_html/vendor/symfony/polyfill-mbstring/bootstrap.php(34): Symfony\Polyfill\Mbstring\Mbstring::mb_strpos(NULL, '/json', 0, 'UTF-8')
+#1 /home/o3pceq5hqgxf/public_html/vendor/laravel/framework/src/Illuminate/Support/Str.php(103): mb_strpos(NULL, '/json')
+#2 /home/o3pceq5hqgxf/public_html/vendor/laravel/framework/src/Illuminate/Http/Concerns/InteractsWithContentTypes.php(34): Illuminate\Support\Str::contains(NULL, Array)
+#3 /home/o3pceq5hqgxf/public_html/vendor/laravel/framework/src/Illuminate/Http/Request.php(339): Illuminate\Http\Request->isJson()
+#4 /home/o3pceq5hqgxf/public_html/vendor/laravel/framework/src/Illuminate/Http/Request.php(371): Illuminate\Http\Request->getInputSource()
+#5 /home/o3pceq5hqgxf/public_html/vendor/laravel/framework/src/Illuminate/Http/Request.php(59): Illuminate\Http\Request::cre in /home/o3pceq5hqgxf/public_html/vendor/symfony/polyfill-mbstring/Mbstring.php on line 493
+[16-Nov-2021 05:59:48 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[17-Nov-2021 06:00:37 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[18-Nov-2021 05:59:50 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed
+[19-Nov-2021 06:00:36 UTC] Unhandled exception in file cloner/websocket.php line 160: [ws_closed]: Connection closed

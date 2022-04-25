@@ -1,0 +1,20 @@
+.close {position: relative;top: -17px; right: -11px; color: #d2cece;}
+        .bannertext.sticky-tab .hd1,.bannertext.sticky-tab h1{display: none;}
+        .popular_image {height: 190px !important;}
+        .popular-listing-row{padding-top: 0px;}
+        .padd100{ padding-top: 0px;}
+        .commonttl-subttl h2{padding: 45px 0 20px 0;}
+        .count-row.padd100{padding-top: 70px !important;}
+        .getointouch.padd100{padding-top: 70px !important;}
+.dropdown-menu::-webkit-scrollbar {
+  width: 1em;
+}
+ 
+.dropdown-menu::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #ababab;
+}
+ 
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background-color: #8c1730;
+  outline: 1px solid slategrey;
+}

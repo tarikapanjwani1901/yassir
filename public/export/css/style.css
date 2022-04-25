@@ -1,0 +1,13 @@
+.dt-button {
+    padding: 10px;
+    border: 2px solid;
+    margin: 5px;
+}
+.dt-buttons a{background: #515763;
+    color: #fff;
+    border: 0;
+    display: inline-block;
+    line-height: normal;transition:all 0.4s linear;border:1px solid #515763;}
+    .dt-buttons a:hover{border:1px solid #515763;background:transparent;color: #515763;}
+    .content .panel-heading{color: #fff;background-color: #337ab700;border-color: #e5e5e5;}
+    .content .panel-primary{border-color: #e5e5e5;}
