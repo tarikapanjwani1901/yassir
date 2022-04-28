@@ -49,42 +49,42 @@ Class HomePageController extends Controller
          $vendor3 = DB::table('vendor_listing')->select('l_key_area')
         ->where('vendor_listing.l_key_area', 'LIKE', "%{$query}%");
 
-        $price = DB::table('vendor_listing')->select('price')
-        ->where('vendor_listing.price', 'LIKE', "%{$query}%");
+        //$price = DB::table('vendor_listing')->select('price')
+        //->where('vendor_listing.price', 'LIKE', "%{$query}%");
 
-         $skill = DB::table('category_type_skill_labour')->select('name')
+         /*$skill = DB::table('category_type_skill_labour')->select('name')
         ->where('category_type_skill_labour.name', 'LIKE', "%{$query}%");
 
          $category_type_material = DB::table('category_type_material')->select('name')
         ->where('category_type_material.name', 'LIKE', "%{$query}%");
 
          $category_type_consultancy = DB::table('category_type_consultancy')->select('name')
-        ->where('category_type_consultancy.name', 'LIKE', "%{$query}%");
+        ->where('category_type_consultancy.name', 'LIKE', "%{$query}%");*/
 
-          $flats = DB::table('flats')->select('name')
+        $flats = DB::table('flats')->select('name')
         ->where('flats.name', 'like', '%'.$query.'%');
 
-        $category_type_contractor =  DB::table('category_type_contractor')->select('name')
+        /*$category_type_contractor =  DB::table('category_type_contractor')->select('name')
         ->where('category_type_contractor.name', 'like', '%'.$query.'%');
 
           $products =  DB::table('product')->select('product_name')
-        ->where('product.product_name', 'like', '%'.$query.'%');
+        ->where('product.product_name', 'like', '%'.$query.'%');*/
 
 
         // 'like', '%'.$s_key.'%');
 
       $data = DB::table('flats')->select('name')
         ->where('flats.name', 'like', '%'.$query.'%')
-        //->union($vendor)
+        ->union($vendor)
        // ->union($skill)
-        //->union($vendor1)
-        //->union($vendor3)
+        ->union($vendor1)
+        ->union($vendor3)
         //->union($price)
         //->union($flats)
-        ->union($category_type_material)
-        ->union($category_type_consultancy)
-        ->union($category_type_contractor)
-        ->union($products)
+        //->union($category_type_material)
+        //->union($category_type_consultancy)
+       // ->union($category_type_contractor)
+       // ->union($products)
        
         ->get();
 

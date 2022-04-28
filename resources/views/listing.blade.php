@@ -91,6 +91,10 @@ span.select2.select2-container.select2-container--default{left:0px;}
 }
 .bbg{padding: 3px 4px;background: #8c1730;border-radius: 3px;color: #fff;text-align: center;margin-bottom:3px; display: inline-block;}
 </style>
+<?php
+  if(!isset($_GET['s_category']))
+    $_GET['s_category']=1;
+?>
 <div class="modal fade1" id="myOTR" role="dialog" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog">
           <!-- Modal content-->
