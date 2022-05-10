@@ -331,6 +331,63 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin', 'middleware' => 'admin',
     Route::post('manage_popular_categories/delete/{id}','Popular_CategoriesController@delete');
     Route::get('manage_popular_categories/edit/{id}', 'Popular_CategoriesController@edit_popular');
     Route::post('manage_popular_categories/edit/{id}', 'Popular_CategoriesController@update_popular');
+	
+	Route::group(['prefix' => 'state'], function () {
+        Route::get('states', 'StateController@data');
+        Route::get('add', 'StateController@add');
+        Route::post('add', 'StateController@addState');
+        Route::get('edit/{id}', 'StateController@editState');
+        Route::post('edit/{id}', 'StateController@editPostState');
+        Route::post('delete/{id}', 'StateController@delete');
+    });
+    Route::get('state_search','StateController@state_search');
+    Route::resource('state', 'StateController');
+	
+	//cities
+	
+	
+	Route::group(['prefix' => 'cities'], function () {
+        Route::get('cities', 'CitiesController@data');
+        Route::get('add', 'CitiesController@add');
+        Route::post('add', 'CitiesController@addCities');
+        Route::get('edit/{id}', 'CitiesController@editCities');
+        Route::post('edit/{id}', 'CitiesController@editPostCities');
+        Route::post('delete/{id}', 'CitiesController@delete');
+    });
+    Route::get('cities_search','CitiesController@search_cities');
+    Route::resource('cities', 'CitiesController');
+
+	Route::group(['prefix' => 'sub_cities'], function () {
+        Route::get('sub_cities', 'SubCitiesController@data');
+        Route::get('add', 'SubCitiesController@add');
+        Route::post('add', 'SubCitiesController@addSubCities');
+        Route::get('edit/{id}', 'SubCitiesController@editSubCities');
+        Route::post('edit/{id}', 'SubCitiesController@editPostSubCities');
+        Route::post('delete/{id}', 'SubCitiesController@delete');
+    });
+    Route::get('sub_cities_search','SubCitiesController@search_sub_cities');
+    Route::resource('sub_cities', 'SubCitiesController');
+	
+	
+	
+	Route::group(['prefix' => 'areas'], function () {
+        Route::get('areas', 'AreasController@data');
+        Route::get('add', 'AreasController@add');
+        Route::post('add', 'AreasController@addAreas');
+        Route::get('edit/{id}', 'AreasController@editAreas');
+        Route::post('edit/{id}', 'AreasController@editPostAreas');
+        Route::post('delete/{id}', 'AreasController@delete');
+    });
+    Route::get('areas_search','AreasController@search_areas');
+    Route::resource('areas', 'AreasController');
+	
+	
+	Route::get('getState','CitiesController@getStateByCountry');
+	Route::get('getCity','CitiesController@getCityByState');
+	Route::get('getSubCity','CitiesController@getSubCityByCity');
+	
+    
+	
 });
 # Remaining pages will be called from below controller method
 # in real world scenario, you may be required to define all routes manually
