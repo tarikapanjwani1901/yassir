@@ -278,11 +278,11 @@ class VendorListingController extends Controller
 
             
             //gallery image
-            $path = public_path().'/images/' . $vl_id.'/pics';
+            $path1 = public_path().'/images/' . $vl_id.'/pics';
 
-            if (!file_exists($path))
+            if (!file_exists($path1))
             {
-                mkdir($path, 0777, true);
+                mkdir($path1, 0777, true);
             }
 
            // $target_path = $path.'/' . "gallery_image.jpg";
@@ -290,11 +290,11 @@ class VendorListingController extends Controller
             if($_POST['category'] == 1 || $_POST['category'] == 2 || $_POST['category'] == 3){
             if ($photo = $request->file('inputFile')) {
 
-            foreach ($photo as  $photos) {
+            foreach ($photo as  $photos1) {
 
-                $imagename = $photos->getClientOriginalName();  
+                $imagename = $photos1->getClientOriginalName();  
                 $destinationPath = public_path().'/images/'. $vl_id.'/pics';
-                $thumb_img = Image::make($photos->getRealPath())->resize(500, 500);
+                $thumb_img = Image::make($photos1->getRealPath())->resize(500, 500);
                 $thumb_img->save($destinationPath.'/'.$imagename,80);
             }
            }
