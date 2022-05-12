@@ -739,6 +739,12 @@ class VendorListingController extends Controller
     public function destroy($id,VendorListing $vendorListing)
     {
         DB::table('vendor_listing')->where('vl_id', '=', $id)->delete();
+        
+        $path = "public/images/" . $id . "/";
+        if (\File::exists($path)){
+            \File::deleteDirectory($path);
+        }
+
         return 'success';
     }
 
