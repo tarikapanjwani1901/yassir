@@ -373,11 +373,11 @@ Class HomePageController extends Controller
     {
 
         if ($flag == 'sendotp') {
-            $otpmessage = urlencode("Please use this OTP: ".$otp);
+            $otpmessage = urlencode("Dear User, ".$otp." is your YasSir Verification code.");
         } else {
             $otpmessage = urlencode($otp);
         }
-
+        
         $curl_handle=curl_init();
         curl_setopt($curl_handle, CURLOPT_URL,'http://sms.incisivewebsolution.com/rest/services/sendSMS/sendGroupSms?AUTH_KEY=667810964beb48fcf4f157b070dd89fa&message='.$otpmessage.'&senderId=YASSIR&routeId=1&mobileNos='.$phone.'&smsContentType=english');
         curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
