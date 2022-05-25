@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 
-
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,7 +18,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/login', 'API\ApiAuthController@login'); 
+Route::post('/loginVerification', 'API\ApiAuthController@loginVerification'); 
+Route::post('/userRegistration', 'API\ApiAuthController@userRegistration'); 
+Route::post('/userRegistrationVerification', 'API\ApiAuthController@userRegistrationVerification'); 
+Route::post('/ResendOtp', 'API\ApiAuthController@ResendOtp'); 
 
+Route::get('/getUserProfile', 'API\UserController@getUserProfile'); 
+Route::post('/updateUserProfile', 'API\UserController@updateUserProfile'); 
+
+Route::get('/dashboard/getVendorProperty', 'API\PropertyController@getVendorProperty'); 
 
 /*
 Route::get("vendor",'AppBaseController@get_vender');
