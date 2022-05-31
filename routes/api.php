@@ -24,6 +24,9 @@ Route::post('/userRegistration', 'API\ApiAuthController@userRegistration');
 Route::post('/userRegistrationVerification', 'API\ApiAuthController@userRegistrationVerification'); 
 Route::post('/ResendOtp', 'API\ApiAuthController@ResendOtp'); 
 
+Route::get('/getStates', 'API\CommonController@getStates'); 
+Route::get('/getCities', 'API\CommonController@getCities'); 
+
 Route::get('/getUserProfile', 'API\UserController@getUserProfile'); 
 Route::post('/updateUserProfile', 'API\UserController@updateUserProfile'); 
 
