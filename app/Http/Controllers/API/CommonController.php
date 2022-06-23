@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\State;
 use App\Models\City;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Validator;
@@ -85,4 +86,88 @@ class CommonController extends Controller
             'message' => "Success",
             'data'    => $list));
     }
+
+    public static function randomStringGenrator($length = 20)
+    {
+        $string = '';
+        $characters = "123456789ABCDEFHJKLMNPRTVWXYZ";
+
+        for ($p = 0;$p < $length;$p++)
+        {
+            $string .= $characters[mt_rand(0, strlen($characters) - 1) ];
+        }
+        return $string;
+    }
+
+    public static function generateToken($token_id = 0)
+    {
+        for($i=1;$i<=100;$i++){
+            $token = CommonController::randomStringGenrator(300);
+            return $token;
+        }
+            
+        return '';
+    }
+    
+    public static function getAuthorizationHeader()
+    {
+        $headers = null;
+        if (isset($_SERVER['Authorization']))
+        {
+            $headers = trim($_SERVER["Authorization"]);
+        }
+        else if (isset($_SERVER['HTTP_AUTHORIZATION']))
+        { //Nginx or fast CGI
+            $headers = trim($_SERVER["HTTP_AUTHORIZATION"]);
+        }
+        elseif (function_exists('apache_request_headers'))
+        {
+            $requestHeaders = apache_request_headers();
+            // Server-side fix for bug in old Android versions (a nice side-effect of this fix means we don't care about capitalization for Authorization)
+            $requestHeaders = array_combine(array_map('ucwords', array_keys($requestHeaders)) , array_values($requestHeaders));
+            //print_r($requestHeaders);
+            if (isset($requestHeaders['Authorization']))
+            {
+                $headers = trim($requestHeaders['Authorization']);
+            }
+        }
+        return $headers;
+    }
+
+    /**
+     * get access token from header
+     *
+     */
+    public static function getBearerToken()
+    {
+        $headers = CommonController::getAuthorizationHeader();
+        // HEADER: Get the access token from the header
+        if (!empty($headers))
+        {
+            if (preg_match('/Bearer\s(\S+)/', $headers, $matches))
+            {
+                return $matches[1];
+            }
+        }
+        return null;
+    }
+    public static function checkAccessToken(){
+        
+		$accessToken = CommonController::getBearerToken();
+        $checkUser = User::where('access_token',$accessToken)->first();
+        if(!empty($checkUser) && $accessToken!=""){
+            return CommonController::customAPIResponse(true, 200, 'Token Valid!', ['token' => $accessToken]);
+        }else{
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+    }
+
+    public static function customAPIResponse($status, $code, $message, $data)
+    {
+        if(!empty($data))
+            return \Illuminate\Support\Facades\Response::json(['success' => $status, 'code' => $code, 'message' => $message, 'data' => (object)$data]);
+        else
+            return \Illuminate\Support\Facades\Response::json(['success' => $status, 'code' => $code, 'message' => $message, 'data' => [] ]);
+    }
+
 }

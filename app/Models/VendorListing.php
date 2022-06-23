@@ -33,4 +33,35 @@ class VendorListing extends Authenticatable
         
     }
 
+    public static function getPropertyBySearch(){
+
+        $query = VendorListing::query();
+        $query = $query->select('vendor_listing.l_title','vendor_listing.l_location','vendor_listing.price',
+        'vendor_listing.possession_date','vendor_listing.vl_id');
+
+        $query = $query->orderBy('vendor_listing.vl_id','desc');
+        $query= $query->limit(10);
+
+        $response = $query->get();
+
+        return $response;
+        
+    }
+
+    public static function getFavouritePropertyListById($user_id){
+
+        $query = VendorListing::query();
+        $query = $query->join('vendor_listing_favourite','vendor_listing_favourite.vl_id','=','vendor_listing.vl_id');
+        $query = $query->select('vendor_listing.l_title','vendor_listing.l_location','vendor_listing.price',
+        'vendor_listing.possession_date','vendor_listing.vl_id');
+
+        $query = $query->orderBy('vendor_listing.vl_id','desc');
+
+        $query = $query->where('vendor_listing_favourite.u_id',$user_id);
+
+        $response = $query->get();
+
+        return $response;
+        
+    }
 }

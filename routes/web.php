@@ -90,13 +90,20 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin', 'middleware' => 'admin',
     Route::get('manage_invoice/edit/{id}', 'UsersController@get_invoice');
     Route::post('manage_invoice/edit/{id}', 'UsersController@add_invoice');
     Route::get('manage_invoice/delete/{id}', 'UsersController@delete_invoice');
+    
     Route::get('brochure', 'BrochureController@index');
     Route::get('brochure/{id}', 'BrochureController@get_data');
+    
+    // Advertise module
+    Route::get('advertise/create', 'AdvertiseController@create')->name('advertise.create');
+    Route::get('advertise/store', 'AdvertiseController@addAdvertise')->name('advertise.store');
+
     Route::get('invoice/{id}', 'UsersController@invoice');
+    
     Route::resource('users', 'UsersController');
-            Route::get('all_vendor', 'UsersController@all_vendor');   
-            Route::get('all_sales', 'UsersController@all_sales');
-            Route::get('all_customer', 'UsersController@all_customer');
+    Route::get('all_vendor', 'UsersController@all_vendor');   
+    Route::get('all_sales', 'UsersController@all_sales');
+    Route::get('all_customer', 'UsersController@all_customer');
     Route::get('deleted_users',['before' => 'Sentinel', 'uses' => 'UsersController@getDeletedUsers'])->name('deleted_users');
     Route::group(['prefix' => 'groups'], function () {
         Route::get('{group}/delete', 'GroupsController@destroy')->name('groups.delete');

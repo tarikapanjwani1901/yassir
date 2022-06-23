@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\PropertyBookVisit;
 use App\Models\User;
 use App\Models\VendorListing;
+use App\Models\VendorListingFavourite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Validator;
@@ -23,6 +25,11 @@ class PropertyController extends Controller
 
     public function getVendorProperty(Request $request) {
         
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+
         //valid credential
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
@@ -82,6 +89,11 @@ class PropertyController extends Controller
 
     public function getPropertyDetails(Request $request) {
         
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+
         //valid credential
         $validator = Validator::make($request->all(), [
             'property_id' => 'required',
@@ -423,10 +435,294 @@ class PropertyController extends Controller
                 'code'    => 200,
                 'message' => "Success",
 			    'data'    => $returnData));
-		
-		
-		
-		
+	
 		
 	}
+
+    public function addFavourite(Request $request) {
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+
+        //valid credential
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'property_id' => 'required',
+        ]);
+
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+
+        $user = DB::table('users')->select('*')->where('id', $request->user_id)->first();
+        
+        if(empty($user)){
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => "User not found",
+                'data'    => array()
+            ));
+        
+        }else{
+
+            // check if already added as favourite then no change
+            $favourite_count = VendorListingFavourite::getFavouritePropertyCountById($request->user_id,$request->property_id);
+            if($favourite_count==0){
+                $vendor_list_favourite = new VendorListingFavourite();
+                $vendor_list_favourite->vl_id = $request->property_id;
+                $vendor_list_favourite->u_id = $request->user_id;
+                $vendor_list_favourite->save();
+
+                return \Illuminate\Support\Facades\Response::json(array(
+                    'success' => true,
+                    'code'    => 200,
+                    'message' => "Property added as favourite",
+                    'data'    => array()
+                ));
+            }
+            else{
+                return \Illuminate\Support\Facades\Response::json(array(
+                    'success' => true,
+                    'code'    => 200,
+                    'message' => "Property already added as favourite",
+                    'data'    => array()
+                ));
+            }
+        }
+    }
+
+    public function unFavourite(Request $request) {
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+
+        //valid credential
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'property_id' => 'required',
+        ]);
+
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+
+        $user = DB::table('users')->select('*')->where('id', $request->user_id)->first();
+        
+        if(empty($user)){
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => "User not found",
+                'data'    => array()
+            ));
+        
+        }else{
+
+            // check if added as favourite then no unfavourite
+            $favourite_property = VendorListingFavourite::getFavouritePropertyById($request->user_id,$request->property_id);
+            if(isset($favourite_property->id) && $favourite_property->id>0){
+                $vendor_list_favourite = VendorListingFavourite::find($favourite_property->id);
+                $vendor_list_favourite->delete();
+
+                return \Illuminate\Support\Facades\Response::json(array(
+                    'success' => true,
+                    'code'    => 200,
+                    'message' => "Property removed as favourite",
+                    'data'    => array()
+                ));
+            }
+            else{
+                return \Illuminate\Support\Facades\Response::json(array(
+                    'success' => true,
+                    'code'    => 200,
+                    'message' => "Property was not added as favourite",
+                    'data'    => array()
+                ));
+            }
+        }
+    }
+
+    public function getfavourite(Request $request) {
+        
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+
+        //valid credential
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+        ]);
+
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+
+        $user = DB::table('users')->select('*')->where('id', $request->user_id)->first();
+
+        if(empty($user)){
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => "User not found",
+                'data'    => array()
+            ));
+        
+        }else{
+           
+            // get property of vendor
+            $property = VendorListing::getFavouritePropertyListById($request->user_id);
+
+            $list = array();
+            $i=0;
+            if(isset($property) && sizeof($property)>0){
+                foreach($property as $k=>$v){
+                    $list[$i]['id'] = $v->vl_id;
+                    $list[$i]['title'] = $v->l_title;
+                    $list[$i]['possession_date'] = $v->possession_date;
+                    $list[$i]['address'] = $v->l_location;
+                    $list[$i]['price'] = $v->price;
+                    $list[$i]['image'] = "public/images/".$v->vl_id."/featured_image/featured_image.jpg";
+                    $i++;
+                }
+            }
+
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => true,
+                'code'    => 200,
+                'message' => "Success",
+			    'data'    => $list));
+
+        }
+        
+    }
+
+    public function bookVisit(Request $request)
+    {
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+
+        //valid credential
+        $validator = Validator::make($request->all(), [
+            'user_id'=> 'required',
+            'property_id'=> 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'contact' => 'required',
+            'date' => 'required',
+            'from_time' => 'required',
+            'to_time' => 'required',
+        ]);
+
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+        
+        $property = new PropertyBookVisit();
+        $property->user_id = $request->user_id;
+        $property->listing_id = $request->property_id;
+        $property->name = $request->name;
+        $property->email = $request->email;
+        $property->contact = $request->contact;
+        $property->book_date = $request->date;
+        $property->book_from_time = $request->from_time;
+        $property->book_to_time = $request->to_time;
+        $property->save();
+
+        return \Illuminate\Support\Facades\Response::json(
+            array('success' => true,
+            'code'    => 200,
+            'message' => " successfully",
+			'data'    => array())
+        );
+
+    }
+
+    public function getUserProperty(Request $request) {
+        
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+
+        //valid credential
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+        ]);
+
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+           
+        // get property of vendor
+        $property = VendorListing::getPropertyBySearch();
+
+        $list = array();
+        $i=0;
+        if(isset($property) && sizeof($property)>0){
+            foreach($property as $k=>$v){
+                $list[$i]['id'] = $v->vl_id;
+                $list[$i]['title'] = $v->l_title;
+                $list[$i]['possession_date'] = $v->possession_date;
+                $list[$i]['address'] = $v->l_location;
+                $list[$i]['price'] = $v->price;
+                $list[$i]['image'] = "public/images/".$v->vl_id."/featured_image/featured_image.jpg";
+                $i++;
+            }
+        }
+
+        return \Illuminate\Support\Facades\Response::json(array(
+            'success' => true,
+            'code'    => 200,
+            'message' => "Success",
+            'data'    => $list)
+        );
+        
+    }
+
 }

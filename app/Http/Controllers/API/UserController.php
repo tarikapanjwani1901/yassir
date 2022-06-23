@@ -28,6 +28,11 @@ class UserController extends Controller
     */
     public function getUserProfile(Request $request)
     {
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+        
         //valid credential
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
@@ -87,6 +92,11 @@ class UserController extends Controller
     */
     public function updateUserProfile(Request $request)
     {
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+        
         //valid credential
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
