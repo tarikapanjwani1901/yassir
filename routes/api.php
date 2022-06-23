@@ -29,6 +29,8 @@ Route::post('/updateUserProfile', 'API\UserController@updateUserProfile');
 
 Route::get('/dashboard/getVendorProperty', 'API\PropertyController@getVendorProperty'); 
 
+Route::post('/getPropertyDetails', 'API\PropertyController@getPropertyDetails'); 
+
 /*
 Route::get("vendor",'AppBaseController@get_vender');
 Route::get("user",'AppBaseController@get_user');

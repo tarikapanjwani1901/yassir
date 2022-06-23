@@ -382,6 +382,34 @@ $vendor_listing = \DB::table('vendor_listing')->where('u_id',$test)->get();
         </a>
     </li>
     @endif
+    
+    
+     @if(Sentinel::inRole('vendor'))
+     
+     
+    <li {!! (Request::is('admin/vendor_properties') || Request::is('admin/vendor_properties/add') || Request::is('admin/vendor_properties/*') ? 'class="active"' : '') !!}>
+        <a href="#">
+            <i class="livicon" data-name="users" data-size="18" data-c="#418BCA" data-hc="#418BCA"
+               data-loop="true"></i>
+            <span class="title">Property Listing</span>
+            <span class="fa arrow"></span>
+        </a>
+        <ul class="sub-menu">
+            <li {!! (Request::is('admin/vendor_properties') ? 'class="active" id="active"' : '') !!}>
+                <a href="{{ URL::to('admin/vendor_properties') }}">
+                    <i class="fa fa-angle-double-right"></i>
+                    All Property Listing
+                </a>
+            </li>
+            <li {!! (Request::is('admin/vendor_properties/add') ? 'class="active" id="active"' : '') !!}>
+                <a href="{{ URL::to('admin/vendor_properties/add') }}">
+                    <i class="fa fa-angle-double-right"></i>
+                    Add Property Listing
+                </a>
+            </li>
+        </ul>
+    </li>
+    @endif
 
     @if(Sentinel::inRole('admin') || Sentinel::inRole('sales-team') || Sentinel::inRole('vendor') )
     <li {!! (Request::is('admin/otplisting') ? 'class="active"' : '') !!}>
@@ -392,6 +420,8 @@ $vendor_listing = \DB::table('vendor_listing')->where('u_id',$test)->get();
         </a>
     </li>
     @endif
+    
+    
 
      @if(Sentinel::inRole('vendor'))
     <li {!! (Request::is('admin/invoice_detail') ? 'class="active" id="active"' : '') !!}>

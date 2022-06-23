@@ -28,6 +28,7 @@ use View;
 use DB;
 use Schema;
 use Image;
+use Session;
 
 
 class FrontEndController extends JoshController
@@ -58,9 +59,10 @@ class FrontEndController extends JoshController
      *
      * @return View
      */
+	 
     public function getLogin()
-    {   
-        
+    {
+		   
         // Is the user logged in?
         if (Sentinel::check()) {
             return Redirect::route('login');
@@ -74,15 +76,66 @@ class FrontEndController extends JoshController
      *
      * @return Redirect
      */
-    public function postLogin(Request $request)
+	  public function sendOTP($otp='',$phone='',$flag='')
     {
 
+        if ($flag == 'sendotp') {
+            $otpmessage = urlencode("Dear User, ".$otp." is your YasSir Verification code.");
+        } else {
+            $otpmessage = urlencode($otp);
+        }
+        
+        $curl_handle=curl_init();
+        curl_setopt($curl_handle, CURLOPT_URL,'http://sms.incisivewebsolution.com/rest/services/sendSMS/sendGroupSms?AUTH_KEY=667810964beb48fcf4f157b070dd89fa&message='.$otpmessage.'&senderId=YASSIR&routeId=1&mobileNos='.$phone.'&smsContentType=english');
+        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Your application name');
+        $query = curl_exec($curl_handle);
+        curl_close($curl_handle);
 
-        try {
-            
-            // Try to log the user in
-            if ($user=  Sentinel::authenticate($request->only('email', 'password'), $request->get('remember-me', 0))) {
-                //Activity log for login
+        return $query;
+
+    }
+	public function resendOTP(){
+		$mobile_number = Session::get('login_mobile') ;
+		if($mobile_number==""){
+			 return \Illuminate\Support\Facades\Response::json(array('success' => false,'code'    => 442,'message' => "Sorry invalid request.",'data'    =>[]));	
+		}
+		
+		 $digits = 4;
+        	$otp = rand(pow(10, $digits-1), pow(10, $digits)-1);
+			
+			$otpResponse = $this->sendOTP($otp,$mobile_number,'sendotp');
+			DB::table('user_otp')->where('mobile', $mobile_number)->delete();
+            DB::table('user_otp')->insert(
+            ['mobile' => $mobile_number,'otp' => $otp, 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'), 'otp_api_response' => $otpResponse ]
+            );
+
+			return \Illuminate\Support\Facades\Response::json(array('success' => true,'code'    => 200,'message' => "Otp send successfully."));
+		
+		
+	}
+	public function backtologin(){
+		Session::forget('login_mobile');
+		return \Illuminate\Support\Facades\Response::json(array('success' => true,'code'    => 200));
+	}
+    public function postOtp(Request $request)
+    {
+		if($request->otp==""){
+			return redirect('login')->with('error',trans('Please enter otp.'));
+		}else{
+			
+			$getOtp = DB::table('user_otp')->select('otp','created_at')->where('otp', $request->otp)->where('mobile', $request->mobile_number)->get()->toArray();
+			if(empty($getOtp)){
+				return Redirect::route("login")->with('otp_error',  $request->mobile_number);
+			}else{
+				 $get_user = DB::table('users')->select('*')->where('mobile', $request->mobile_number)->first();
+				 $user = Sentinel::findById($get_user->id);
+				 
+				
+				 if (Sentinel::login($user)) {
+					 
+				//Activity log for login
                 activity($user->full_name)
                     ->performedOn($user)
                     ->causedBy($user)
@@ -94,33 +147,67 @@ class FrontEndController extends JoshController
                    return redirect('login')->with('error','not active account');
                 }   
                 else if ( $user->user_role == '5' ) {
+					DB::table('user_otp')->where('mobile', $request->mobile_number)->delete();
+					Session::forget('login_mobile');
                     return Redirect::route("my-account")->with('success', trans('auth/message.login.success'));
                 } else if ( $user->user_role == '1' || $user->user_role == '4' ) {
+					Session::forget('login_mobile');
+					
+					DB::table('user_otp')->where('mobile', $request->mobile_number)->delete();
                     return redirect('/admin');
                 } else if ($user->user_role == '3') {
+					Session::forget('login_mobile');
+					
+					DB::table('user_otp')->where('mobile', $request->mobile_number)->delete();
                     return redirect('/admin/vendorlisting');
                 }
 
-            } else {
-                return redirect('login')->with('error', 'Email or password is incorrect.');
-                //return Redirect::back()->withInput()->withErrors($validator);
-            }
+            }	
+			}
+		}
+		
+	}
+	public function postLogin(Request $request)
+    {
+		
+		if($request->mobile_number==""){
+			return redirect('login')->with('error',trans('Please enter mobile number.'));
+		}
+		 $checkUser = DB::table('users')->select('*')->where('mobile', $request->mobile_number)->first();
+		if(empty( $checkUser)){
+			return redirect('login')->with('error',trans('Invalid mobile number.'));
+		}
+		
+			 
+ $users_info = DB::table('users')
+->select('activations.completed','activations.user_id')
+->join('activations','activations.user_id','users.id')
+->groupby('activations.user_id')->distinct()
+->where('users.deleted_at','=',NULL)
+->where('users.id',$checkUser->id)->get();
 
-        } catch (UserNotFoundException $e) {
-            $this->messageBag->add('email', trans('auth/message.account_not_found'));
-        } catch (NotActivatedException $e) {
-            $this->messageBag->add('email', trans('auth/message.account_not_activated'));
-        } catch (UserSuspendedException $e) {
-            $this->messageBag->add('email', trans('auth/message.account_suspended'));
-        } catch (UserBannedException $e) {
-            $this->messageBag->add('email', trans('auth/message.account_banned'));
-        } catch (ThrottlingException $e) {
-            $delay = $e->getDelay();
-            $this->messageBag->add('email', trans('auth/message.account_suspended', compact('delay')));
-        }
+		if(isset($users_info[0]->completed) && $users_info[0]->completed==0){
+			  return redirect('login')->with('error',trans('auth/message.account_not_activated'));
+			
+		}else{
+		
+		$digits = 4;
+					$otp = rand(pow(10, $digits-1), pow(10, $digits)-1);
+				
+				$otpResponse = $this->sendOTP($otp,$request->mobile_number,'sendotp');
+				DB::table('user_otp')->where('mobile', $request->mobile_number)->delete();
+				DB::table('user_otp')->insert(
+				['mobile' => $request->mobile_number,'otp' => $otp, 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'), 'otp_api_response' => $otpResponse ]
+				);
+				Session::put('login_mobile', $request->mobile_number);
+	 
+				return Redirect::route("login")->with('otp_send',  $request->mobile_number);		 
+			
+		}			
+		
+		 
+        
 
-        // Ooops.. something went wrong
-        return Redirect::back()->withInput()->withErrors($this->messageBag);
     }
 
     /**

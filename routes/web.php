@@ -388,6 +388,23 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin', 'middleware' => 'admin',
 	
     
 	
+	
+	 Route::group(['prefix' => 'vendor_properties'], function () {
+        Route::post('/', 'PropertiesController@index');
+        Route::get('add', 'PropertiesController@show');
+        Route::post('add', 'PropertiesController@create');
+        Route::get('edit/{id}', 'VendorListingController@edit');
+        Route::post('edit/{id}', 'VendorListingController@update');
+        Route::post('delete/{id}', 'VendorListingController@destroy');
+        Route::get('getProductCategory', 'VendorListingController@getProductCategory');
+        Route::post('del_image','VendorListingController@del_image');
+         
+        Route::post('del_extravideo','VendorListingController@del_extravideo');
+
+        Route::post('del_video','VendorListingController@del_video');
+    });
+
+	    Route::resource('vendor_properties', 'PropertiesController');
 });
 # Remaining pages will be called from below controller method
 # in real world scenario, you may be required to define all routes manually
@@ -401,6 +418,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 #FrontEndController
 Route::get('login', 'FrontEndController@getLogin')->name('login');
 Route::post('login', 'FrontEndController@postLogin')->name('login');
+Route::post('postOtp', 'FrontEndController@postOtp')->name('otpSubmit');
+Route::get('resendOTP', 'FrontEndController@resendOTP')->name('resendOTP');
+Route::get('backtologin', 'FrontEndController@backtologin')->name('backtologin');
+
+
 Route::get('register', 'FrontEndController@getRegister')->name('register');
 Route::post('register','FrontEndController@postRegister')->name('register');
 Route::get('becomevendor', 'FrontEndController@getVRegister')->name('vregister');
