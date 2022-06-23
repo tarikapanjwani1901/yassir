@@ -12,6 +12,13 @@
 </div>
 @endif
 
+@if ($message = Session::get('otp_error'))
+<div class="alert alert-danger alert-dismissable margin5">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <strong>Error:</strong> Sorry invalid otp.
+</div>
+@endif
+
 @if ($message = Session::get('error'))
 <div class="alert alert-danger alert-dismissable margin5">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

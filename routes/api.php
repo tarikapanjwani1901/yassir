@@ -38,7 +38,6 @@ Route::post('/property/addfavourite', 'API\PropertyController@addFavourite');
 Route::post('/property/unfavourite', 'API\PropertyController@unFavourite');
 Route::get('/property/getfavourite', 'API\PropertyController@getFavourite');
 Route::post('/property/bookvisit', 'API\PropertyController@bookVisit');
-
 Route::get('/user/getUserProperty', 'API\PropertyController@getUserProperty'); 
 /*
 Route::get("vendor",'AppBaseController@get_vender');
