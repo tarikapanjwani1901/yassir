@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use Image;
-use App\Areas;
+use App\Models\Areas;
 
 
 

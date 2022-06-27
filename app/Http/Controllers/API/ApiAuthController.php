@@ -223,7 +223,7 @@ class ApiAuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 	 
-    public function vendorRegistration(Request $request) {
+    public function Registration(Request $request) {
         //validate data
         $validator = Validator::make($request->all(), [
             'user_type'     => 'required|string',
@@ -246,7 +246,7 @@ class ApiAuthController extends Controller
 				
 		}else{
 			
-			 $digits = 4;
+			$digits = 4;
         	$otp = rand(pow(10, $digits-1), pow(10, $digits)-1);
 			
 			$otpResponse = $this->sendOTP($otp,$request->mobile,'sendotp');
@@ -264,7 +264,7 @@ class ApiAuthController extends Controller
         
     }
     
-	public function vendorRegistrationVerification(Request $request) {
+	public function RegistrationVerification(Request $request) {
         //validate data
         $validator = Validator::make($request->all(), [
             'user_type'     => 'required|string',

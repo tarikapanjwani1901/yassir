@@ -87,29 +87,50 @@ label.error {display: block;text-align: left;padding-top: 5px;}
                 <figure class="img-circle">
                    <img src="<?php echo e(asset('public/assets/images/logo-black.svg')); ?>" alt="Yassir your corporate motto">
                 </figure>
+                <?php if(Session::get('login_mobile')): ?>
+                <h2>OTP Verification</h2>
+                <?php else: ?>
                 <h2>Log In</h2>
+                 <?php endif; ?>
                  <div id="notific" class="hide_msg">
                 <?php echo $__env->make('notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 </div>
+                <?php if(Session::get('login_mobile')): ?>
+                <div class="loginForm">
+                	 <form method="post" id="login_form" action="<?php echo e(route('otpSubmit')); ?>" autocomplete="off">
+                     <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+                     <input type="hidden" name="mobile_number" value="<?php echo e(Session::get('login_mobile')); ?>">
+                     
+                      <div class="form-group <?php echo e($errors->first('otp', 'has-error')); ?>">
+                        <input type="text" class="mdl-textfield__input" placeholder="Please enter otp" id="otp" name="otp">
+                      </div>
+                      <span class="help-block"><?php echo e($errors->first('otp', ':message')); ?></span>
+                      <div class="clearfix">
+                        <input type="submit" class="btn btn-danger submitBtn" name="submit" value="SUBMIT">     <a href="javascript:void(0)" class="forgotPassword back_to_login"><strong> Back to login</strong></a>
+                     </div>
+                        <div class="text-center signuptxt">
+                    <a href="javascript:void(0)" class="resend_otp"><strong> Resend OTP</strong></a>                
+                    </div>
+                    </form>
+                </div>
+                <?php else: ?>
                 <div class="loginForm">
                     <form method="post" id="login_form" action="<?php echo e(route('login')); ?>" autocomplete="off">
                      <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
-                      <div class="form-group <?php echo e($errors->first('email', 'has-error')); ?>">
-                        <input type="text" class="mdl-textfield__input" placeholder="Email" id="username" name="email">
+                      <div class="form-group <?php echo e($errors->first('mobile_number', 'has-error')); ?>">
+                        <input type="text" class="mdl-textfield__input" placeholder="Mobile No" id="mobile_number" name="mobile_number">
                       </div>
-                      <span class="help-block"><?php echo e($errors->first('email', ':message')); ?></span>
-                      <div class="form-group <?php echo e($errors->first('password', 'has-error')); ?>">  
-                        <input type="password" class="mdl-textfield__input" placeholder="Password" id="password" name="password">
-                      </div>
-                      <span class="help-block"><?php echo e($errors->first('password', ':message')); ?></span>              
+                      <span class="help-block"><?php echo e($errors->first('mobile_number', ':message')); ?></span>
                       <div class="clearfix">
                         <input type="submit" class="btn btn-danger submitBtn" name="submit" value="Log In">
-                        <a class="forgotPassword" href="<?php echo e(url('/')); ?>/forgot-password">Forgot password?</a> </div>
+                     </div>
                         <div class="text-center signuptxt">
                     Don't have an account? <a href="<?php echo e(url('/')); ?>/becomevendor"><strong> Sign Up</strong></a>
                     </div>
                     </form>
                 </div>
+                <?php endif; ?>
+                
             </div>
         </div>
     </div>
@@ -120,32 +141,73 @@ label.error {display: block;text-align: left;padding-top: 5px;}
 <script type="text/javascript" src="<?php echo e(asset('public/assets/vendors/iCheck/js/icheck.js')); ?>"></script>
 <script type="text/javascript" src="<?php echo e(asset('public/assets/js/frontend/login_custom.js')); ?>"></script>
 <script src="<?php echo e(asset('public/assets/js/jquery.validate.min.js')); ?>"></script>
-</body>
-</html>
+
 <script>
 $(document).ready(function () {
     $('#login_form').validate({
         rules: {
-            email: {
-                required: true
-            },
-            password: {
+            mobile_number: {
                 required: true,
+				number:true
             },
+			otp: {
+                required: true,
+				number:true
+            },
+			
+            
         },
         messages:{
-            email:{
-                required:"Enter your email address",
+            moble_number:{
+                required:"Please enter your mobile number.",
             },
 
-            password:{
-                required:"Enter your password",
-            },        
         },
     });
+
 });
 $(".hide_msg").fadeTo(2000, 500).slideUp(500, function(){
     $(".hide_msg").slideUp(500);
 });
+
+jQuery(document).on("click",".resend_otp",function(){
+ $.ajax({
+            type: "GET",
+            url: "<?php echo e(route('resendOTP')); ?>",
+            dataType: "json",
+            success: function (data) {
+				if(data.success){
+					alert("OTP has been successfully send.");	
+				}else{
+					alert("Sorry invalid request. please try again.");		
+				}
+            },
+            error: function () {
+				
+					alert("Sorry invalid request. please try again.");	
+			},
+        });
+});
+
+jQuery(document).on("click",".back_to_login",function(){
+ 
+ $.ajax({
+            type: "GET",
+            url: "<?php echo e(route('backtologin')); ?>",
+            dataType: "json",
+            success: function (data) {
+				window.location.reload();
+				
+            },
+            error: function () {
+		//		
+			//		alert("Sorry invalid request. please try again.");	
+			},
+        });
+});
+
+
 </script>
+</body>
+</html>
 <?php echo $__env->make('footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

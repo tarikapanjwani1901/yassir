@@ -91,6 +91,10 @@ span.select2.select2-container.select2-container--default{left:0px;}
 }
 .bbg{padding: 3px 4px;background: #8c1730;border-radius: 3px;color: #fff;text-align: center;margin-bottom:3px; display: inline-block;}
 </style>
+<?php
+  if(!isset($_GET['s_category']))
+    $_GET['s_category']=1;
+?>
 <div class="modal fade1" id="myOTR" role="dialog" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog">
           <!-- Modal content-->
@@ -186,7 +190,8 @@ span.select2.select2-container.select2-container--default{left:0px;}
              <!-- search form close-->
            <!--Popular  listing-->
             <?php
-                if (!$result) {
+            //print_r($result);exit;
+                if (sizeof($result)>0) {
                     $array = array();
                     foreach ($result as $key => $value) {
                         $address = $value->l_location;
@@ -196,7 +201,7 @@ span.select2.select2-container.select2-container--default{left:0px;}
                             $a[] = trim($value);
                         }
                         $im = implode(',<br>',$a);
-                        $geo = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($address).'&sensor=true&key=AIzaSyBIU0AkBLdVGjo4oTQm3R5kyYC6uhNdMLs');
+                        $geo = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($address).'&sensor=true&key=AIzaSyAc__25fdW4keVReIxWo6hsywLtJ6PB0Qw');
                         $geoReponse = json_decode($geo, true);
                         $url = urlencode($address);
                         if (isset($geoReponse['status']) && $geoReponse['status'] == 'OK') {
@@ -206,6 +211,8 @@ span.select2.select2-container.select2-container--default{left:0px;}
                         }
                         ?>
                    <?php  }
+
+                  // print_r($array);exit;
                 }
             ?>
             <div class="row">

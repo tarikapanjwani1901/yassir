@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Areas;
 use App\Http\Controllers\Controller;
 use App\Models\State;
 use App\Models\City;
+use App\Models\SubCity;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -85,6 +87,87 @@ class CommonController extends Controller
             'code'    => 200,
             'message' => "Success",
             'data'    => $list));
+    }
+
+    public function getSubCities(Request $request)
+    {
+        //valid credential
+        $validator = Validator::make($request->all(), [
+            'city_id' => 'required',
+        ]);
+		  
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+
+        $city_id = $request->city_id;
+
+        $sub_city_response = SubCity::getSubCitiesByCityId($city_id);
+
+        $list = array();
+        $i=0;
+        if(isset($sub_city_response) && sizeof($sub_city_response)>0){
+            foreach($sub_city_response as $k=>$v){
+                $list[$i]['id'] = $v->id;
+                $list[$i]['name'] = $v->name;
+                $i++;
+            }
+        }
+
+        return \Illuminate\Support\Facades\Response::json(array(
+            'success' => true,
+            'code'    => 200,
+            'message' => "Success",
+            'data'    => $list)
+        );
+    }
+
+    public function getAreas(Request $request)
+    {
+        //valid credential
+        $validator = Validator::make($request->all(), [
+            'subcity_id' => 'required',
+        ]);
+		  
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+
+        $subcity_id = $request->subcity_id;
+
+        $area_response = Areas::getAreasBySubCityId($subcity_id);
+
+        $list = array();
+        $i=0;
+        if(isset($area_response) && sizeof($area_response)>0){
+            foreach($area_response as $k=>$v){
+                $list[$i]['area_id'] = $v->id;
+                $list[$i]['area_name'] = $v->name;
+                $list[$i]['area_pincode'] = $v->pincode;
+                $i++;
+            }
+        }
+
+        return \Illuminate\Support\Facades\Response::json(array(
+            'success' => true,
+            'code'    => 200,
+            'message' => "Success",
+            'data'    => $list)
+        );
     }
 
     public static function randomStringGenrator($length = 20)

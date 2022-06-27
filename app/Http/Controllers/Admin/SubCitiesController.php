@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use Image;
-use App\SubCities;
-
-
+use App\Models\SubCity;
 
 class SubCitiesController extends JoshController
 {
@@ -75,12 +73,9 @@ class SubCitiesController extends JoshController
         return 'success';
     }
 
-    public function editSubCities($id) {
-
-
-     
-
-       $data =  SubCities ::where('id',$id)->firstOrFail();
+    public function editSubCities($id) 
+	{
+       $data =  SubCity ::where('id',$id)->firstOrFail();
   
        if($data == null)
        {
@@ -218,7 +213,7 @@ class SubCitiesController extends JoshController
 
     public function editPostSubCities(Request $request,$id) {
         
-			 $checkState = SubCities::where('name',$request->name)->where('state_id',$request->state)->where('city_id',$request->city)->where('country_id',$request->country)->where("id",'!=',$id)->first();
+			 $checkState = SubCity::where('name',$request->name)->where('state_id',$request->state)->where('city_id',$request->city)->where('country_id',$request->country)->where("id",'!=',$id)->first();
 				
 				if(isset($checkState->id) && $checkState->id >0){
 					 return  redirect('admin/sub_cities/edit/'.$id)->with(['error' => 'Sorry sub city already exists.']);
@@ -236,7 +231,7 @@ class SubCitiesController extends JoshController
     public function addSubCities(Request $request,$id="") {
 		
 
-	 $checkState = SubCities::where('name',$request->name)->where('state_id',$request->state)->where('country_id',$request->country)->where('city_id',$request->city)->first();
+	 $checkState = SubCity::where('name',$request->name)->where('state_id',$request->state)->where('country_id',$request->country)->where('city_id',$request->city)->first();
 				
 				if(isset($checkState->id) && $checkState->id >0){
 					 return  redirect('admin/sub_cities/add')->with(['error' => 'Sorry sub city already exists.']);
