@@ -51,7 +51,9 @@ class UserController extends Controller
 		}
 
         
-        $user = DB::table('users')->select('*')->where('id', $request->user_id)->first();
+        $user = DB::table('users')->select('users.*','areas.pincode')
+            ->leftJoin('areas','areas.id','=','users.area_id')
+            ->where('users.id', $request->user_id)->first();
 
         if(empty($user)){
             return \Illuminate\Support\Facades\Response::json(array(
@@ -69,8 +71,11 @@ class UserController extends Controller
             $user_data['user_name'] = $user->user_name;
             $user_data['pic'] = $user->pic;
             $user_data['mobile_number'] = $user->mobile;
-            $user_data['state_id'] = $user->user_state;
-            $user_data['city_id'] = $user->city;
+            $user_data['country_id'] = (int)$user->country;
+            $user_data['state_id'] = (int)$user->user_state;
+            $user_data['city_id'] = (int)$user->city;
+            $user_data['sub_city_id'] = $user->sub_city_id;
+            $user_data['area_id'] = $user->area_id;
             $user_data['gender'] = $user->gender;
             $user_data['dob'] = $user->dob;
 
@@ -103,11 +108,8 @@ class UserController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'user_name' => 'required',
-           // 'state_id' => 'required',
-            //'city_id' => 'required',
             'dob'=>'required',
             'gender'=>'required',
-            //'mobile_number' => 'required',
         ]);
 
         //Send failed response if request is not valid
@@ -126,14 +128,20 @@ class UserController extends Controller
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->user_name = $request->user_name;
+        $user->gender = $request->gender;
+        $user->dob = $request->dob;
 
+        if(isset($request->country_id) && $request->country_id!='')
+            $user->country = $request->country_id;
         if(isset($request->state_id) && $request->state_id!='')
             $user->user_state = $request->state_id;
         if(isset($request->city_id) && $request->city_id!='')
             $user->city = $request->city_id;
-
-        $user->gender = $request->gender;
-        $user->dob = $request->dob  ;
+        if(isset($request->sub_city_id) && $request->sub_city_id!='')
+            $user->sub_city_id = $request->city_id;
+        if(isset($request->area_id) && $request->area_id!='')
+            $user->area_id = $request->area_id;
+        
         //$user->mobile  = $user->mobile_number;
         
         if($request->hasFile('profile_pic')) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Country;
 use App\Models\Areas;
 use App\Http\Controllers\Controller;
 use App\Models\State;
@@ -28,9 +29,47 @@ class CommonController extends Controller
         //$this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    public function getStates()
+    public function getCountries()
     {
-        $country_id = 101;
+        $country_response = Country::getAllCountries();
+
+        $list = array();
+        $i=0;
+        if(isset($country_response) && sizeof($country_response)>0){
+            foreach($country_response as $k=>$v){
+                $list[$i]['id'] = $v->id;
+                $list[$i]['name'] = $v->name;
+                $i++;
+            }
+        }
+
+        return \Illuminate\Support\Facades\Response::json(array(
+            'success' => true,
+            'code'    => 200,
+            'message' => "Success",
+            'data'    => $list)
+        );
+    }
+
+    public function getStates(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'country_id' => 'required',
+        ]);
+		  
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+
+        $country_id = $request->country_id;
+
         $state_response = State::getStatesByCountryId($country_id);
 
         $list = array();

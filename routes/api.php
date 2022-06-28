@@ -26,6 +26,7 @@ Route::post('/userRegistration', 'API\ApiAuthController@userRegistration');
 Route::post('/userRegistrationVerification', 'API\ApiAuthController@userRegistrationVerification'); 
 Route::post('/ResendOtp', 'API\ApiAuthController@ResendOtp'); 
 
+Route::get('/getCountries', 'API\CommonController@getCountries'); 
 Route::get('/getStates', 'API\CommonController@getStates'); 
 Route::get('/getCities', 'API\CommonController@getCities'); 
 Route::get('/getSubCities', 'API\CommonController@getSubCities'); 
