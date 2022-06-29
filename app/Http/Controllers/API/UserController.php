@@ -65,11 +65,11 @@ class UserController extends Controller
         
         }else{
             $user_data = array();
-            $user_data['id'] = $user->id;
+            $user_data['user_id'] = $user->id;
             $user_data['first_name'] = $user->first_name;
             $user_data['last_name'] = $user->last_name;
             $user_data['user_name'] = $user->user_name;
-            $user_data['pic'] = $user->pic;
+            $user_data['profile_pic'] = $user->pic;
             $user_data['mobile_number'] = $user->mobile;
             $user_data['country_id'] = (int)$user->country;
             $user_data['state_id'] = (int)$user->user_state;
