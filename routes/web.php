@@ -95,8 +95,13 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin', 'middleware' => 'admin',
     Route::get('brochure/{id}', 'BrochureController@get_data');
     
     // Advertise module
+    Route::get('advertise', 'AdvertiseController@index')->name('advertise.index');
     Route::get('advertise/create', 'AdvertiseController@create')->name('advertise.create');
-    Route::get('advertise/store', 'AdvertiseController@addAdvertise')->name('advertise.store');
+    Route::post('advertise/store', 'AdvertiseController@addAdvertise')->name('advertise.store');
+    Route::post('advertise/delete/{id}', 'AdvertiseController@destroy');
+    Route::get('advertise/edit/{id}', 'AdvertiseController@edit');
+    Route::post('advertise/edit/{id}', 'AdvertiseController@update');
+    Route::post('advertise/delete_image','AdvertiseController@advertise_delimage');
 
     Route::get('invoice/{id}', 'UsersController@invoice');
     
