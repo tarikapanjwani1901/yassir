@@ -103,6 +103,9 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin', 'middleware' => 'admin',
     Route::post('advertise/edit/{id}', 'AdvertiseController@update');
     Route::post('advertise/delete_image','AdvertiseController@advertise_delimage');
 
+    // test route
+    Route::get('test/add', 'AdvertiseController@test')->name('test.add');
+
     Route::get('invoice/{id}', 'UsersController@invoice');
     
     Route::resource('users', 'UsersController');
