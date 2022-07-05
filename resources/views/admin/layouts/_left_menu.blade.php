@@ -675,5 +675,23 @@ $vendor_listing = \DB::table('vendor_listing')->where('u_id',$test)->get();
         </li>
     @endif
 
+    @if (Sentinel::inRole('admin') || Sentinel::inRole('vendor'))
+        <li {!! (Request::is('admin/bookvisit') ? 'class="active"' : '') !!}>
+            <a href="#">
+                <i class="livicon" data-name="users" data-size="18" data-c="#418BCA" data-hc="#418BCA" data-loop="true"></i>
+                <span class="title">Book Visit</span>
+                <span class="fa arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="{{ URL::to('admin/bookvisit') }}">
+                        <i class="fa fa-angle-double-right"></i>
+                        Book Visit
+                    </a>
+                </li>
+            </ul>
+        </li>
+    @endif
+
     @include('admin/layouts/menu')
 </ul>

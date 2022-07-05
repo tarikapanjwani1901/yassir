@@ -103,6 +103,10 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin', 'middleware' => 'admin',
     Route::post('advertise/edit/{id}', 'AdvertiseController@update');
     Route::post('advertise/delete_image','AdvertiseController@advertise_delimage');
 
+    // Book Visit
+    Route::get('bookvisit', 'BookVisitController@index')->name('bookvisit.index');
+    Route::post('bookvisit/delete/{id}', 'BookVisitController@destroy');
+
     // test route
     Route::get('test/add', 'AdvertiseController@test')->name('test.add');
 
