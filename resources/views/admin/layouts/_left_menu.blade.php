@@ -374,13 +374,13 @@ $vendor_listing = \DB::table('vendor_listing')->where('u_id',$test)->get();
     @endif
 
     @if(Sentinel::inRole('admin') || Sentinel::inRole('vendor'))
-    <li {!! (Request::is('admin/inquirylisting') ? 'class="active"' : '') !!}>
+    <!--<li {!! (Request::is('admin/inquirylisting') ? 'class="active"' : '') !!}>
         <a href="{{ URL::to('admin/inquirylisting') }}">
             <i class="livicon" data-name="users" data-size="18" data-c="#418BCA" data-hc="#418BCA"
                data-loop="true"></i>
             <span class="title">Inquiry Listing</span>
         </a>
-    </li>
+    </li>-->
     @endif
     
     
@@ -690,6 +690,16 @@ $vendor_listing = \DB::table('vendor_listing')->where('u_id',$test)->get();
                     </a>
                 </li>
             </ul>
+        </li>
+    @endif
+
+    @if (Sentinel::inRole('admin') || Sentinel::inRole('vendor'))
+        <li {!! (Request::is('admin/inquiry') ? 'class="active"' : '') !!}>
+            <a href="{{ URL::to('admin/inquiry') }}">
+                <i class="livicon" data-name="users" data-size="18" data-c="#418BCA" data-hc="#418BCA"
+                data-loop="true"></i>
+                <span class="title">Inquiry Listing</span>
+            </a>
         </li>
     @endif
 

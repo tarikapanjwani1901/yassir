@@ -42,7 +42,12 @@ Route::get('/property/getfavourite', 'API\PropertyController@getFavourite');
 Route::get('/dashboard/getVendorProperty', 'API\PropertyController@getVendorProperty'); 
 Route::get('/getPropertyDetails', 'API\PropertyController@getPropertyDetails');
 Route::post('/property/bookvisit', 'API\PropertyController@bookVisit');
+Route::post('/property/bookinquiry', 'API\PropertyController@bookInquiry');
 Route::get('/user/getUserProperty', 'API\PropertyController@getUserProperty'); 
+
+Route::get('/user/getUserInquiries', 'API\PropertyController@getUserInquiries'); 
+Route::get('/user/getVendorInquiries', 'API\PropertyController@getVendorInquiries'); 
+
 /*
 Route::get("vendor",'AppBaseController@get_vender');
 Route::get("user",'AppBaseController@get_user');

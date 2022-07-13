@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Inquiry;
 use App\Models\PropertyBookVisit;
 use App\Models\User;
 use App\Models\VendorListing;
@@ -13,6 +14,7 @@ use Validator;
 use DB;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
+use Google\Service\CloudRun\Probe;
 use Illuminate\Support\Arr;
 use Sentinel;
 use Image;
@@ -255,11 +257,9 @@ class PropertyController extends Controller
 		$returnData['website'] = ""; 
 		if ($result[0]->web_site){
 		if(strpos($result[0]->web_site, "http://")){
-                        $returnData['website'] = $result[0]->web_site;
+            $returnData['website'] = $result[0]->web_site;
 		}else{
-			
 			$returnData['website'] = "http://".$result[0]->web_site;
-
 		}
 	}
  
@@ -664,12 +664,13 @@ class PropertyController extends Controller
         $property->book_date = $request->date;
         $property->book_from_time = $request->from_time;
         $property->book_to_time = $request->to_time;
+        $property->type = "bookvisit";
         $property->save();
 
         return \Illuminate\Support\Facades\Response::json(
             array('success' => true,
             'code'    => 200,
-            'message' => " successfully",
+            'message' => "Book Visit has been done successfully",
 			'data'    => array())
         );
 
@@ -725,4 +726,184 @@ class PropertyController extends Controller
         
     }
 
+    public function bookInquiry(Request $request) {
+        
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+
+        //valid credential
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'property_id'=> 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'contact' => 'required',
+            'message' => 'required',
+        ]);
+
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+
+        $property_book_visit = new PropertyBookVisit();
+        $property_book_visit->user_id = $request->user_id;
+        $property_book_visit->listing_id = $request->property_id;
+        $property_book_visit->name = $request->name;
+        $property_book_visit->email = $request->email;
+        $property_book_visit->contact = $request->contact;
+        $property_book_visit->message = $request->message;
+        $property_book_visit->type = "inquiry";
+        $property_book_visit->save();
+
+        $book_visit_id = $property_book_visit->id;
+
+        /*if($book_visit_id>0){
+            // send message to who raise inquiry
+            $otpmessage = urlencode("Thank you for contacting us.");
+            $phone = '9712618161'; //$request->contact;
+
+            $curl_handle=curl_init();
+            curl_setopt($curl_handle, CURLOPT_URL,'http://sms.incisivewebsolution.com/rest/services/sendSMS/sendGroupSms?AUTH_KEY=667810964beb48fcf4f157b070dd89fa&message='.$otpmessage.'&senderId=YASSIR&routeId=1&mobileNos='.$phone.'&smsContentType=english');
+            curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+            curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Your application name');
+            $query = curl_exec($curl_handle);
+            curl_close($curl_handle);
+
+            // send message to owner of property
+
+            $owner_mobile = '9712618161'; 
+            $otpownermessage = urlencode("Tarika has requested for inquiry. Please find contact info as below.");
+            $curl_handle=curl_init();
+            curl_setopt($curl_handle, CURLOPT_URL,'http://sms.incisivewebsolution.com/rest/services/sendSMS/sendGroupSms?AUTH_KEY=667810964beb48fcf4f157b070dd89fa&message='.$otpownermessage.'&senderId=YASSIR&routeId=1&mobileNos='.$owner_mobile.'&smsContentType=english');
+            curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+            curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Your application name');
+            $query = curl_exec($curl_handle);
+            curl_close($curl_handle);
+
+        }*/
+
+        return \Illuminate\Support\Facades\Response::json(
+            array('success' => true,
+            'code'    => 200,
+            'message' => "Inquiry has been submitted successfully",
+			'data'    => array())
+        );
+
+    }
+    
+    public function getUserInquiries(Request $request) {
+        
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+
+        //valid credential
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required'
+        ]);
+
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+
+
+        $property_inquiries = PropertyBookVisit::getAllUserInquiries($request->user_id);
+
+        return $property_inquiries;
+
+        $list = array();
+        $i=0;
+        if(isset($property_inquiries) && sizeof($property_inquiries)>0){
+            foreach($property_inquiries as $k=>$v){
+                $list[$i]['id'] = $v->vl_id;
+                $list[$i]['image'] = "public/images/".$v->vl_id."/featured_image/featured_image.jpg";
+                $list[$i]['title'] = $v->l_title;
+                $list[$i]['inquiry_date'] = date("d-M-Y",strtotime($v->created_at));
+                $list[$i]['address'] = $v->l_location;
+                $list[$i]['status'] = $v->status;
+                $i++;
+            }
+        }
+
+        return \Illuminate\Support\Facades\Response::json(array(
+            'success' => true,
+            'code'    => 200,
+            'message' => "Success",
+            'data'    => $list)
+        );
+
+    }
+
+    public function getVendorInquiries(Request $request) {
+        
+        $token = CommonController::checkAccessToken();
+        if ($token->getData()->success != 1) {
+            return CommonController::customAPIResponse(false, 401, 'Invalid token.', []);
+        }
+
+        //valid credential
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required'
+        ]);
+
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error = $validator->errors()->all(':message');
+            return \Illuminate\Support\Facades\Response::json(array(
+                'success' => false,
+                'code'    => 442,
+                'message' => $error[0],
+                'data'    => (object) $errors
+            ));
+        }
+
+
+        $property_inquiries = PropertyBookVisit::getAllVendorInquiriesList($request->user_id);
+
+        return $property_inquiries;
+
+        $list = array();
+        $i=0;
+        if(isset($property_inquiries) && sizeof($property_inquiries)>0){
+            foreach($property_inquiries as $k=>$v){
+                $list[$i]['id'] = $v->vl_id;
+                $list[$i]['image'] = "public/images/".$v->vl_id."/featured_image/featured_image.jpg";
+                $list[$i]['title'] = $v->l_title;
+                $list[$i]['inquiry_date'] = date("d-M-Y",strtotime($v->created_at));
+                $list[$i]['address'] = $v->l_location;
+                $list[$i]['status'] = $v->status;
+                $i++;
+            }
+        }
+
+        return \Illuminate\Support\Facades\Response::json(array(
+            'success' => true,
+            'code'    => 200,
+            'message' => "Success",
+            'data'    => $list)
+        );
+
+    }
 }

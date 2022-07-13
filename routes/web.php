@@ -107,6 +107,10 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin', 'middleware' => 'admin',
     Route::get('bookvisit', 'BookVisitController@index')->name('bookvisit.index');
     Route::post('bookvisit/delete/{id}', 'BookVisitController@destroy');
 
+     // Inquiry Listing
+    Route::get('inquiry', 'InquiryController@index');
+    Route::post('inquiry', 'InquiryController@index');
+
     // test route
     Route::get('test/add', 'AdvertiseController@test')->name('test.add');
 
@@ -229,7 +233,7 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin', 'middleware' => 'admin',
         Route::post('product_delimage','ProductController@product_delimage');
     });
     Route::resource('product', 'ProductController');
-      Route::get('product_search', 'ProductController@manage_product');
+    Route::get('product_search', 'ProductController@manage_product');
     //Product Group Management : ENDS
     // Inquiry Listing
     Route::get('inquirylisting', 'InquiryController@index');
