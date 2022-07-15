@@ -144,7 +144,7 @@ else
                         </div>
                         <div class="mobmenu">
 					<div class="list_biz">
-	                    		<a class="" href="{{url('/')}}/becomevendor" tabindex="0">List Your Business</a>
+	                    		<a class="" href="{{url('/')}}/becomevendor" tabindex="0">List Your Property</a>
 	                    	</div>
 	                    <nav>
 	                        <ul>

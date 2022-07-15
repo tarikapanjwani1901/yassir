@@ -830,8 +830,6 @@ class PropertyController extends Controller
 
         $property_inquiries = PropertyBookVisit::getAllUserInquiries($request->user_id);
 
-        return $property_inquiries;
-
         $list = array();
         $i=0;
         if(isset($property_inquiries) && sizeof($property_inquiries)>0){
@@ -881,8 +879,6 @@ class PropertyController extends Controller
 
 
         $property_inquiries = PropertyBookVisit::getAllVendorInquiriesList($request->user_id);
-
-        return $property_inquiries;
 
         $list = array();
         $i=0;
